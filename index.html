@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+  <title>MOMFLIX: Birthday Special Edition</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&family=Noto+Serif+KR:wght@600;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#E50914',
+              hoverRed: '#b80710',
+              dark: '#141414',
+              surface: '#181818',
+              card: '#242424',
+              gold: '#F59E0B'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            drama: ['"Noto Serif KR"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Netflix vibe styling & subtle effects */
+    body {
+      background-color: #141414;
+      color: #FFFFFF;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #141414;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #333333;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E50914;
+    }
+
+    .hero-gradient {
+      background: linear-gradient(0deg, #141414 0%, rgba(20,20,20,0.7) 40%, rgba(20,20,20,0.2) 100%),
+                  radial-gradient(ellipse at 80% 20%, rgba(229, 9, 20, 0.25) 0%, rgba(0,0,0,0) 65%);
+    }
+
+    .card-zoom {
+      transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease;
+    }
+    .card-zoom:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 16px 30px rgba(229, 9, 20, 0.25);
+    }
+
+    /* Drawer smooth slide */
+    .drawer-open {
+      transform: translateX(0) !important;
+    }
+
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+    .pulse-btn {
+      animation: pulseSoft 2.5s infinite;
+    }
+    /* 1. Mobile Default (1 Column) */
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+/* 2. Laptop / Desktop Expansion (Multi-Column) */
+  @media (min-width: 768px) {
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+  </style>
+</head>
+<body class="selection:bg-brand-red selection:text-white">
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <header class="fixed top-0 w-full z-40 bg-gradient-to-b from-black/90 via-[#141414]/80 to-transparent backdrop-blur-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-4 sm:space-x-8">
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl sm:text-3xl font-black tracking-tighter text-brand-red uppercase font-sans">MOMFLIX</span>
+          <span class="text-xs font-bold uppercase tracking-wider bg-brand-red/20 text-brand-red px-2 py-0.5 rounded border border-brand-red/30">VIP Pass</span>
+        </div>
+        <nav class="hidden md:flex space-x-6 text-sm text-gray-300 font-medium">
+          <a href="#hero" class="hover:text-white transition">Home</a>
+          <a href="#cast" class="hover:text-white transition">The Male Leads (Sons)</a>
+          <a href="#wellness" class="hover:text-white transition">30-Day Vitality Routine</a>
+          <a href="#dramas" class="hover:text-white transition">Mom's Watchlist</a>
+        </nav>
+      </div>
+
+      <!-- Quick action button for the Memory Drawer -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleCalendarDrawer(true)" class="flex items-center space-x-2 text-xs sm:text-sm font-semibold bg-brand-red hover:bg-brand-hoverRed text-white px-3 sm:px-4 py-2 rounded-md transition shadow-md shadow-brand-red/25">
+          <i class="fa-solid fa-calendar-heart text-amber-300"></i>
+          <span>Memory Calendar</span>
+        </button>
+        <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-tr from-yellow-500 to-red-500 flex items-center justify-center font-bold text-xs shadow-inner cursor-pointer" title="Best Mom in the Universe">
+          👑
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO BILLBOARD SECTION ================= -->
+  <section id="hero" class="relative min-h-[92vh] flex items-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 hero-gradient">
+    <!-- Ambient Backdrop Art -->
+    <div class="absolute inset-0 z-0 overflow-hidden opacity-35 pointer-events-none">
+      <div class="absolute top-1/4 right-5 md:right-20 w-72 h-72 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-red-600/30 to-purple-600/10 blur-3xl"></div>
+      <div class="absolute bottom-10 left-10 w-64 h-64 rounded-full bg-amber-500/20 blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto md:mx-0 lg:ml-12 text-left">
+      <!-- Tagline badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs sm:text-sm font-medium text-amber-300 mb-4">
+        <span>✨ MOMFLIX ORIGINAL SPECIAL</span>
+        <span>•</span>
+        <span>Season 2026 Premiere</span>
+      </div>
+
+      <!-- Drama Title -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-4 leading-tight font-drama">
+        Crash Landing on Mom’s Birthday <span class="text-brand-red text-3xl sm:text-5xl">사랑의 불시착</span>
+      </h1>
+
+      <p class="text-gray-300 text-base sm:text-lg max-w-2xl mb-8 leading-relaxed font-light">
+        Rated <strong class="text-brand-gold">100% Match</strong> for the Queen of the Household. A breathtaking drama featuring wholesome living, organic tea, infinite patience, and two nerdy sons trying their very best to make her smile today.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap gap-4 items-center">
+        <button onclick="openTrailerModal()" class="pulse-btn flex items-center gap-3 bg-white text-black hover:bg-gray-200 font-bold px-6 sm:px-8 py-3.5 rounded-md transition text-sm sm:text-base shadow-xl">
+          <i class="fa-solid fa-play text-brand-red text-base"></i>
+          Play Birthday Teaser
+        </button>
+        <button onclick="toggleCalendarDrawer(true)" class="flex items-center gap-2 bg-neutral-800/80 hover:bg-neutral-700/80 text-white font-semibold px-6 py-3.5 rounded-md transition text-sm sm:text-base border border-neutral-700">
+          <i class="fa-solid fa-images text-pink-400"></i>
+          Open Family Album
+        </button>
+      </div>
+
+      <!-- Quick Metadata -->
+      <div class="flex items-center gap-4 mt-8 text-xs sm:text-sm text-gray-400">
+        <span class="text-green-400 font-semibold">99.9% Wholesome</span>
+        <span class="border border-neutral-600 px-1.5 py-0.5 rounded text-[11px]">4K Ultra Zen</span>
+        <span>30 Wellness Days</span>
+        <span>Health • Drama • Unconditional Love</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SONS' CAST PROFILES (THE MALE LEADS) ================= -->
+  <section id="cast" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-neutral-800">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-2">
+          <span>The Male Leads</span>
+          <span class="text-xs font-semibold uppercase bg-neutral-800 text-amber-400 px-2.5 py-1 rounded-md">Main Cast</span>
+        </h2>
+        <p class="text-gray-400 text-sm mt-1">Her two devoted nerd sons competing to be the favorite child</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+      <!-- Nerd Son 1 -->
+      <div class="card-zoom bg-gradient-to-b from-[#242424] to-[#1c1c1c] rounded-2xl p-6 sm:p-7 border border-neutral-700/60 relative overflow-hidden flex flex-col justify-between">
+        <div class="absolute -right-8 -top-8 w-36 h-36 bg-blue-500/10 rounded-full blur-2xl"></div>
+        <div>
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-3xl">
+                💻
+              </div>
+              <div>
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-wider">Son #1 • The Technomancer</span>
+                <h3 class="text-xl font-bold text-white">The Dev & Wi-Fi Master</h3>
+                <p class="text-xs text-gray-400">Role: Chief Digital Architect of Momflix</p>
+              </div>
+            </div>
+            <span class="text-xs bg-blue-500/20 text-blue-300 font-semibold px-2.5 py-1 rounded-full">Level 99 Coder</span>
+          </div>
+
+          <div class="mt-6 space-y-3 text-sm text-gray-300 font-light">
+            <p>• <strong>Primary Quest:</strong> Resolving every Wi-Fi disconnect, building custom mom websites, and teaching Mom why restarting the iPad fixes 95% of problems.</p>
+            <p>• <strong>Birthday Pledge:</strong> "I promise to write clean code, answer every technical question with saint-like calmness, and never complain when you send me 12 TikTok health hacks in a row."</p>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-neutral-700 flex items-center justify-between text-xs text-gray-400">
+          <span class="text-blue-400 font-medium"><i class="fa-solid fa-signal mr-1"></i> 100% Wi-Fi Signal</span>
+          <span>Status: Coding for Mom</span>
+        </div>
+      </div>
+
+      <!-- Nerd Son 2 -->
+      <div class="card-zoom bg-gradient-to-b from-[#242424] to-[#1c1c1c] rounded-2xl p-6 sm:p-7 border border-neutral-700/60 relative overflow-hidden flex flex-col justify-between">
+        <div class="absolute -right-8 -top-8 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl"></div>
+        <div>
+          <div class="flex items-start justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-3xl">
+                🧘‍♂️
+              </div>
+              <div>
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Son #2 • The Ascetic Scholar</span>
+                <h3 class="text-xl font-bold text-white">The Contemplative Monk</h3>
+                <p class="text-xs text-gray-400">Role: Resident Zen Guru & Mindful Guardian</p>
+              </div>
+            </div>
+            <span class="text-xs bg-amber-500/20 text-amber-300 font-semibold px-2.5 py-1 rounded-full">Inner Peace 100</span>
+          </div>
+
+          <div class="mt-6 space-y-3 text-sm text-gray-300 font-light">
+            <p>• <strong>Primary Quest:</strong> Searching for ultimate detachment from worldly desires (and laundry duties), bringing quiet mindfulness and pure calming energy.</p>
+            <p>• <strong>Birthday Pledge:</strong> "May Mom's mind be as still as jade water and as enduring as the mountains. I dedicate 108 chants for her longevity and good digestion."</p>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-neutral-700 flex items-center justify-between text-xs text-gray-400">
+          <span class="text-amber-400 font-medium"><i class="fa-solid fa-om mr-1"></i> Detached from stress</span>
+          <span>Status: Meditating on Love</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 30-DAY WORKOUT & WELLNESS ROUTINE ================= -->
+  <section id="wellness" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-neutral-800">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase text-brand-gold tracking-widest mb-1">
+          <i class="fa-solid fa-leaf"></i> Longevity & Vitality Program
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white">30-Day Healthy Mom Challenge</h2>
+        <p class="text-gray-400 text-sm mt-1 max-w-xl">Curated gentle exercises, brisk walks, hydration, and posture stretches to keep Mom feeling youthfully energetic while bingeing K-Dramas.</p>
+      </div>
+
+      <!-- Tracker summary widget -->
+      <div class="bg-neutral-800/80 border border-neutral-700 rounded-xl p-4 flex items-center gap-5 min-w-[280px]">
+        <div class="relative w-14 h-14 flex items-center justify-center">
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+            <path class="text-neutral-700" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="progressCircle" class="text-brand-red transition-all duration-500" stroke-dasharray="0, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          </svg>
+          <span id="percentText" class="absolute text-xs font-bold">0%</span>
+        </div>
+        <div>
+          <div class="text-xs text-gray-400">Total Completed</div>
+          <div class="text-lg font-bold text-white"><span id="completedCount">0</span> / 30 Days</div>
+          <button onclick="resetRoutine()" class="text-[11px] text-gray-500 hover:text-red-400 transition underline mt-0.5">Reset Progress</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 30-Day Grid -->
+    <div id="workoutGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-4">
+      <!-- Generated via JS -->
+    </div>
+  </section>
+
+  <!-- ================= POPULAR DRAMAS ROW (MOM'S FLAVORS) ================= -->
+  <section id="dramas" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-neutral-800">
+    <h2 class="text-xl sm:text-2xl font-bold mb-6 flex items-center gap-2">
+      <i class="fa-solid fa-fire text-brand-red"></i>
+      <span>Trending in Mom's Heart</span>
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Drama 1 -->
+      <div class="bg-[#1f1f1f] rounded-xl overflow-hidden border border-neutral-800 card-zoom group flex flex-col justify-between">
+        <div class="h-44 bg-gradient-to-tr from-rose-900 to-amber-700 flex flex-col justify-end p-4 relative">
+          <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-[11px] font-bold px-2 py-0.5 rounded text-amber-300">C-Drama Historical</span>
+          <h3 class="text-lg font-bold font-drama leading-tight">Story of Yanxi Palace (Mom's Edition)</h3>
+        </div>
+        <div class="p-4 flex-1 flex flex-col justify-between">
+          <p class="text-xs text-gray-400 mb-3 leading-relaxed">Mom maneuvers family diplomacy with superior wit, medicinal soup knowledge, and imperial elegance.</p>
+          <div class="flex items-center justify-between text-xs text-brand-gold font-semibold pt-2 border-t border-neutral-800">
+            <span>Match 99%</span>
+            <span class="text-gray-400">70 Episodes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drama 2 -->
+      <div class="bg-[#1f1f1f] rounded-xl overflow-hidden border border-neutral-800 card-zoom group flex flex-col justify-between">
+        <div class="h-44 bg-gradient-to-tr from-emerald-900 to-teal-700 flex flex-col justify-end p-4 relative">
+          <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-[11px] font-bold px-2 py-0.5 rounded text-teal-300">Health & Longevity</span>
+          <h3 class="text-lg font-bold font-drama leading-tight">Hospital Playlist: Doctor Mom</h3>
+        </div>
+        <div class="p-4 flex-1 flex flex-col justify-between">
+          <p class="text-xs text-gray-400 mb-3 leading-relaxed">Diagnosing why the sons have poor posture and prescribing warm boiled water + wolfberries for every symptom.</p>
+          <div class="flex items-center justify-between text-xs text-brand-gold font-semibold pt-2 border-t border-neutral-800">
+            <span>Match 100%</span>
+            <span class="text-gray-400">Endless Wisdom</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drama 3 -->
+      <div class="bg-[#1f1f1f] rounded-xl overflow-hidden border border-neutral-800 card-zoom group flex flex-col justify-between">
+        <div class="h-44 bg-gradient-to-tr from-purple-900 to-indigo-800 flex flex-col justify-end p-4 relative">
+          <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-[11px] font-bold px-2 py-0.5 rounded text-purple-300">K-Drama Comedy</span>
+          <h3 class="text-lg font-bold font-drama leading-tight">Reply 1988: Raising Two Nerds</h3>
+        </div>
+        <div class="p-4 flex-1 flex flex-col justify-between">
+          <p class="text-xs text-gray-400 mb-3 leading-relaxed">A nostalgic tear-jerker highlighting the sheer bravery of feeding two tech-addicted sons who forget to step outside.</p>
+          <div class="flex items-center justify-between text-xs text-brand-gold font-semibold pt-2 border-t border-neutral-800">
+            <span>Match 98%</span>
+            <span class="text-gray-400">Award Winner</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drama 4 -->
+      <div class="bg-[#1f1f1f] rounded-xl overflow-hidden border border-neutral-800 card-zoom group flex flex-col justify-between">
+        <div class="h-44 bg-gradient-to-tr from-red-950 to-stone-900 flex flex-col justify-end p-4 relative">
+          <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-[11px] font-bold px-2 py-0.5 rounded text-amber-200">Zen Masterpiece</span>
+          <h3 class="text-lg font-bold font-drama leading-tight">The Untamed (Inner Calm Edition)</h3>
+        </div>
+        <div class="p-4 flex-1 flex flex-col justify-between">
+          <p class="text-xs text-gray-400 mb-3 leading-relaxed">A peaceful journey where son #2 meditates peacefully while mom enjoys quiet afternoons drinking fragrant jasmine tea.</p>
+          <div class="flex items-center justify-between text-xs text-brand-gold font-semibold pt-2 border-t border-neutral-800">
+            <span>Match 97%</span>
+            <span class="text-gray-400">Zen Perfection</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="mt-20 border-t border-neutral-900 bg-black/60 py-12 text-center text-xs text-gray-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-3">
+      <div class="text-brand-red font-black text-lg tracking-wider">MOMFLIX</div>
+      <p>Crafted with love & admiration by your two proud sons • Season 2026 Special Edition</p>
+      <p class="text-neutral-600">No bugs were harmed in the making of this birthday page.</p>
+    </div>
+  </footer>
+
+  <!-- ================= SLIDE-OUT FAMILY MEMORY CALENDAR DRAWER ================= -->
+  <!-- Backdrop -->
+  <div id="drawerOverlay" onclick="toggleCalendarDrawer(false)" class="fixed inset-0 bg-black/70 z-50 backdrop-blur-sm hidden transition-opacity duration-300"></div>
+
+  <!-- Drawer Panel -->
+  <aside id="calendarDrawer" class="fixed top-0 right-0 h-full w-full max-w-md sm:max-w-lg bg-[#181818] z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col border-l border-neutral-800">
+    <!-- Drawer Header -->
+    <div class="p-5 border-b border-neutral-800 flex items-center justify-between bg-black/40">
+      <div class="flex items-center gap-2.5">
+        <div class="p-2 bg-brand-red/10 text-brand-red rounded-lg">
+          <i class="fa-solid fa-calendar-days text-lg"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-white text-base">Family Memory Calendar</h3>
+          <p class="text-xs text-gray-400">Click any day to unlock memories</p>
+        </div>
+      </div>
+      <button onclick="toggleCalendarDrawer(false)" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-neutral-800 transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Upload Section & Controls -->
+    <div class="p-4 bg-neutral-900/70 border-b border-neutral-800 space-y-3">
+      <div class="flex items-center justify-between text-xs">
+        <span class="text-gray-300 font-semibold flex items-center gap-1.5">
+          <i class="fa-solid fa-cloud-arrow-up text-brand-red"></i>
+          Add Family Photos:
+        </span>
+        <span id="customPhotoBadge" class="text-neutral-400 text-[11px]">0 uploaded</span>
+      </div>
+
+      <!-- File input with clear stylized button -->
+      <label class="flex flex-col items-center justify-center border-2 border-dashed border-neutral-700 hover:border-brand-red/70 rounded-xl p-3 cursor-pointer transition bg-neutral-800/40 hover:bg-neutral-800/80 group">
+        <input type="file" id="photoUploader" accept="image/*" multiple onchange="handleImageUpload(event)" class="hidden">
+        <div class="flex items-center gap-2 text-xs text-gray-300 group-hover:text-white">
+          <i class="fa-solid fa-image text-brand-red text-base"></i>
+          <span class="font-medium">Upload Real Family Memories</span>
+        </div>
+        <span class="text-[10px] text-gray-500 mt-1">Accepts multiple JPG/PNG images</span>
+      </label>
+    </div>
+
+    <!-- Calendar Month Header & Grid -->
+    <div class="p-5 flex-1 overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <span class="font-bold text-sm text-gray-200">Birthday Month Memories</span>
+        <span class="text-xs bg-brand-red/20 text-brand-red px-2.5 py-1 rounded-full font-bold">Day 1 to 30</span>
+      </div>
+
+      <div class="grid grid-cols-7 gap-2 text-center text-xs font-semibold text-gray-500 mb-2">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+
+      <!-- 30 Calendar Days Grid -->
+      <div id="calendarGrid" class="grid grid-cols-7 gap-2">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+      <!-- Hint box -->
+      <div class="mt-6 p-4 rounded-xl bg-neutral-900/60 border border-neutral-800 text-xs text-gray-400 space-y-2">
+        <div class="flex items-center gap-2 text-amber-400 font-semibold">
+          <i class="fa-solid fa-lightbulb"></i> Son's Note
+        </div>
+        <p>You can upload actual photos right here on your phone or laptop! If none are uploaded, cute pre-loaded birthday tributes will appear when you tap any date.</p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= POPUP MODAL: DAY MEMORY VIEWER ================= -->
+  <div id="memoryModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-neutral-900 border border-neutral-700 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl transform transition-all">
+      <div class="relative bg-black">
+        <img id="modalImage" src="" alt="Family Memory" class="w-full h-64 object-cover" onerror="this.src='https://placehold.co/600x400/222222/ffffff?text=Precious+Family+Memory'">
+        <button onclick="closeMemoryModal()" class="absolute top-3 right-3 bg-black/60 hover:bg-black/90 text-white w-8 h-8 rounded-full flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <span id="modalDayBadge" class="absolute bottom-3 left-3 bg-brand-red text-white text-xs font-extrabold px-3 py-1 rounded-full shadow-md">
+          Day 1 Memory
+        </span>
+      </div>
+
+      <div class="p-5 space-y-3">
+        <h4 id="modalTitle" class="text-lg font-bold text-white">Mom's Golden Radiance</h4>
+        <p id="modalCaption" class="text-xs sm:text-sm text-gray-300 leading-relaxed font-light">
+          A timeless captured moment reflecting your warm smile and unconditional tenderness.
+        </p>
+
+        <div class="pt-3 border-t border-neutral-800 flex items-center justify-between text-xs text-gray-400">
+          <span class="text-brand-gold"><i class="fa-solid fa-heart mr-1 text-red-500"></i> Loved unconditionally</span>
+          <button onclick="closeMemoryModal()" class="text-xs bg-neutral-800 hover:bg-neutral-700 text-gray-200 px-4 py-1.5 rounded-lg transition">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PLAY TRAILER MODAL ================= -->
+  <div id="trailerModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="bg-[#181818] border border-neutral-700 w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl relative">
+      <div class="p-4 sm:p-5 border-b border-neutral-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-red-600 inline-block animate-ping"></span>
+          <h3 class="font-bold text-sm sm:text-base text-white">Trailer: Crash Landing on Mom’s Birthday</h3>
+        </div>
+        <button onclick="closeTrailerModal()" class="text-gray-400 hover:text-white p-1.5 rounded-md hover:bg-neutral-800 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Trailer Screen Simulation -->
+      <div class="p-6 sm:p-8 space-y-6 text-center bg-gradient-to-b from-neutral-900 to-[#141414]">
+        <div class="w-20 h-20 mx-auto rounded-full bg-brand-red/10 border-2 border-brand-red flex items-center justify-center text-3xl">
+          🎂
+        </div>
+
+        <div>
+          <div class="text-brand-red font-mono text-xs font-semibold uppercase tracking-widest mb-1">OFFICIAL SYNOPSIS</div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white font-drama">"The Most Radiant Woman in the Whole World"</h2>
+        </div>
+
+        <div class="max-w-lg mx-auto bg-black/40 rounded-xl p-4 sm:p-5 border border-neutral-800 text-left space-y-3 text-xs sm:text-sm text-gray-300">
+          <p>🎬 <strong>Scene 1:</strong> Mom wakes up, drinks warm lemon water, and ensures everyone has eaten properly.</p>
+          <p>💻 <strong>Scene 2:</strong> Son #1 struggles with code until Mom offers gentle encouragement (and fruit).</p>
+          <p>🧘 <strong>Scene 3:</strong> Son #2 prepares for monkhood, but happily breaks his ascetic silence to say: <em>"Happy Birthday Mom!"</em></p>
+          <p>🌸 <strong>Climax:</strong> Mom smiles, and the entire house is filled with warmth, health, and prosperity.</p>
+        </div>
+
+        <button onclick="closeTrailerModal()" class="bg-brand-red hover:bg-brand-hoverRed text-white font-bold px-8 py-3 rounded-lg text-sm transition shadow-lg shadow-brand-red/30">
+          ❤️ Love You Mom, Forever & Always!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    /* ==============================================================
+       1. 30-DAY WORKOUT & WELLNESS CHALLENGE DATA
+    ============================================================== */
+    const workoutData = [
+      { day: 1, title: "10-Min Morning Spine Awakening", type: "Mobility", desc: "Gentle neck rolls, shoulder circles, and side reaches." },
+      { day: 2, title: "Brisk 3,000 Steps Walking", type: "Cardio", desc: "Outdoor stroll or pacing comfortably while listening to audiobooks." },
+      { day: 3, title: "Tea & Hydration Milestone", type: "Longevity", desc: "Drink 2L of warm water and 2 cups of antioxidant green/chrysanthemum tea." },
+      { day: 4, title: "Gentle Pelvic & Core Activator", type: "Core", desc: "Gentle bridge lifts (10 reps x 2 sets) with deep mindful breathing." },
+      { day: 5, title: "K-Drama Commercial Stretches", type: "Stretching", desc: "Calf stretch and doorway chest openers during drama breaks." },
+      { day: 6, title: "Mindful Joint Relaxation", type: "Mobility", desc: "Ankle and wrist rolls + wrist therapy for tablet/phone holding." },
+      { day: 7, title: "Ascetic Rest & Deep Breathing", type: "Zen Day", desc: "5-minute seated calm breath guided by son #2's peaceful aura." },
+      { day: 8, title: "Brisk 4,000 Steps Walk", type: "Cardio", desc: "Enjoying the fresh breeze with comfortable walking shoes." },
+      { day: 9, title: "Gentle Chair Squats", type: "Strength", desc: "12 light sit-to-stands from the living room chair with good posture." },
+      { day: 10, title: "Warm Water Foot Bath", type: "Detox", desc: "Soaking feet in warm herbal water before evening rest." },
+      { day: 11, title: "Wall Push-ups for Arm Tone", type: "Strength", desc: "15 slow wall push-ups focusing on chest and shoulder alignment." },
+      { day: 12, title: "Hip Flexor & Hamstring Release", type: "Mobility", desc: "Gentle seated fold to relieve lower back and hip tension." },
+      { day: 13, title: "Green Superfood Feast", type: "Longevity", desc: "Incorporate leafy greens, steamed broccoli, or healthy soup." },
+      { day: 14, title: "Halfway Victory Walk (5,000 steps)", type: "Cardio", desc: "Celebrate day 14! Walking with son #1 or son #2." },
+      { day: 15, title: "Cat-Cow Spine Flow", type: "Mobility", desc: "Slow and fluid back arching and rounding for total flexibility." },
+      { day: 16, title: "Shoulder Blade Pinches", type: "Posture", desc: "Open the heart and counter hunching from reading or phone use." },
+      { day: 17, title: "Gentle Balance Practice", type: "Balance", desc: "Standing single leg balance (hold onto a counter for safety)." },
+      { day: 18, title: "Zero Sugar Herbal Tea Day", type: "Wellness", desc: "Detox with soothing peppermint, barley, or jasmine brew." },
+      { day: 19, title: "Gentle Torso Twists", type: "Mobility", desc: "Seated torso rotations to gently stimulate digestion." },
+      { day: 20, title: "Brisk Garden Stroll", type: "Cardio", desc: "Absorbing natural morning sunlight and Vitamin D." },
+      { day: 21, title: "Zen Monk Meditation Day", type: "Mindfulness", desc: "10 minutes of pure inner silence, releasing all worries." },
+      { day: 22, title: "Gentle Calf & Achilles Stretches", type: "Stretching", desc: "Stretching against the stairs to maintain springy steps." },
+      { day: 23, title: "Gentle Lateral Arm Raises", type: "Strength", desc: "Lifting light water bottles (12 reps) for toned shoulders." },
+      { day: 24, title: "Warm Ginger Tea & Lemon", type: "Longevity", desc: "Internal warming boost for circulation and digestive fire." },
+      { day: 25, title: "Posture Perfection Walk", type: "Posture", desc: "15 minutes walking with shoulders rolled back and chin level." },
+      { day: 26, title: "Neck Release & Temple Massage", type: "Relaxation", desc: "Gentle tension relief after watching favorite drama episodes." },
+      { day: 27, title: "Gentle High Knees March", type: "Cardio", desc: "Marching in place for 3 minutes during cheerful background music." },
+      { day: 28, title: "Deep Butterfly Stretch", type: "Mobility", desc: "Seated floor stretch for relaxed lower back and hip joints." },
+      { day: 29, title: "Gratitude & Vitality Breathing", type: "Mindfulness", desc: "Inhaling peace and exhaling stress alongside both nerd sons." },
+      { day: 30, title: "MOMFLIX GRAND CHAMPION!", type: "Celebration", desc: "30-Day Master of Health achieved! Crowned Queen of Longevity!" }
+    ];
+
+    // Local storage key for workout progress
+    const WORKOUT_STORAGE_KEY = 'momflix_workout_completed_v1';
+    let completedDays = JSON.parse(localStorage.getItem(WORKOUT_STORAGE_KEY) || '[]');
+
+    function renderWorkoutGrid() {
+      const grid = document.getElementById('workoutGrid');
+      grid.innerHTML = '';
+
+      workoutData.forEach((item) => {
+        const isDone = completedDays.includes(item.day);
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-xl border transition-all cursor-pointer select-none flex flex-col justify-between ${
+          isDone
+            ? 'bg-red-950/40 border-brand-red text-white'
+            : 'bg-[#1b1b1b] border-neutral-800 text-gray-300 hover:border-neutral-600'
+        }`;
+        card.onclick = () => toggleDay(item.day);
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-bold ${isDone ? 'text-brand-red' : 'text-gray-400'}">DAY ${item.day}</span>
+              <span class="w-5 h-5 rounded-full flex items-center justify-center text-xs ${
+                isDone ? 'bg-brand-red text-white' : 'border border-neutral-600 text-transparent'
+              }">
+                <i class="fa-solid fa-check"></i>
+              </span>
+            </div>
+            <div class="text-xs font-semibold leading-tight text-white mb-1">${item.title}</div>
+            <div class="text-[11px] text-gray-400 leading-normal line-clamp-2">${item.desc}</div>
+          </div>
+          <div class="mt-3 pt-2 border-t border-neutral-800/80 flex items-center justify-between text-[10px]">
+            <span class="text-amber-400">${item.type}</span>
+            <span class="${isDone ? 'text-brand-red font-semibold' : 'text-gray-500'}">${isDone ? 'Completed' : 'Tap to done'}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      updateProgressWidget();
+    }
+
+    function toggleDay(dayNumber) {
+      if (completedDays.includes(dayNumber)) {
+        completedDays = completedDays.filter(d => d !== dayNumber);
+      } else {
+        completedDays.push(dayNumber);
+      }
+      localStorage.setItem(WORKOUT_STORAGE_KEY, JSON.stringify(completedDays));
+      renderWorkoutGrid();
+    }
+
+    function updateProgressWidget() {
+      const count = completedDays.length;
+      const total = workoutData.length;
+      const percent = Math.round((count / total) * 100);
+
+      document.getElementById('completedCount').innerText = count;
+      document.getElementById('percentText').innerText = `${percent}%`;
+
+      // SVG circle radius calculation
+      const circle = document.getElementById('progressCircle');
+      circle.setAttribute('stroke-dasharray', `${percent}, 100`);
+    }
+
+    function resetRoutine() {
+      completedDays = [];
+      localStorage.removeItem(WORKOUT_STORAGE_KEY);
+      renderWorkoutGrid();
+    }
+
+    /* ==============================================================
+       2. FAMILY MEMORY CALENDAR & CUSTOM UPLOAD SYSTEM
+    ============================================================== */
+    // Default memorable photos & captions if no local photos are uploaded
+    const defaultMomMemories = [
+      {
+        url: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=700&q=80",
+        title: "Family Smile & Warm Tea",
+        caption: "Nothing tops Mom's homemade healthy meals and gentle laughter after a long week."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=700&q=80",
+        title: "Walking in Tranquility",
+        caption: "Health, fresh air, and good company. Wishing you boundless longevity and serene joy."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=700&q=80",
+        title: "Superfood Morning Feast",
+        caption: "Antioxidants, fruits, and clean nutrition that keep you radiant day after day."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=700&q=80",
+        title: "The Temple of Peace",
+        caption: "Son #2 meditates peacefully, transmitting calm karma directly to Mom's heart."
+      },
+      {
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80",
+        title: "Code Written With Love",
+        caption: "Son #1 fixing computer screens and dedicating every algorithm to his wonderful mother."
+      }
+    ];
+
+    // Array to store uploaded custom data URLs
+    let userUploadedPhotos = [];
+
+    function handleImageUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      Array.from(files).forEach((file) => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          userUploadedPhotos.push({
+            url: e.target.result,
+            title: `Family Treasure: ${file.name.replace(/\.[^/.]+$/, "")}`,
+            caption: "Uploaded specially for Mom's Birthday Album. Truly irreplaceable memory!"
+          });
+          document.getElementById('customPhotoBadge').innerText = `${userUploadedPhotos.length} uploaded`;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderCalendarGrid() {
+      const container = document.getElementById('calendarGrid');
+      container.innerHTML = '';
+
+      for (let day = 1; day <= 30; day++) {
+        const dayBtn = document.createElement('button');
+        dayBtn.className = "h-11 rounded-lg bg-neutral-800/80 hover:bg-brand-red text-white text-xs font-bold transition flex flex-col items-center justify-center border border-neutral-700/60 hover:scale-105 active:scale-95";
+        dayBtn.onclick = () => openDayMemory(day);
+
+        // Highlight birthday special day (e.g. today or day 15)
+        const isBdayBadge = day === 2 ? '❤️' : day;
+        dayBtn.innerHTML = `
+          <span>${isBdayBadge}</span>
+          <span class="text-[9px] text-gray-400 font-normal">Day</span>
+        `;
+        container.appendChild(dayBtn);
+      }
+    }
+
+    function openDayMemory(dayNumber) {
+      const pool = userUploadedPhotos.length > 0 ? userUploadedPhotos : defaultMomMemories;
+      // Deterministic yet playful rotation so each day gets a nice memory
+      const index = (dayNumber - 1) % pool.length;
+      const memory = pool[index];
+
+      document.getElementById('modalImage').src = memory.url;
+      document.getElementById('modalDayBadge').innerText = `Day ${dayNumber} Memory`;
+      document.getElementById('modalTitle').innerText = memory.title;
+      document.getElementById('modalCaption').innerText = memory.caption;
+
+      document.getElementById('memoryModal').classList.remove('hidden');
+    }
+
+    function closeMemoryModal() {
+      document.getElementById('memoryModal').classList.add('hidden');
+    }
+
+    /* ==============================================================
+       3. DRAWER & MODAL UI CONTROLS
+    ============================================================== */
+    function toggleCalendarDrawer(open) {
+      const drawer = document.getElementById('calendarDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+
+      if (open) {
+        overlay.classList.remove('hidden');
+        drawer.classList.add('drawer-open');
+        document.body.style.overflow = 'hidden';
+      } else {
+        drawer.classList.remove('drawer-open');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function openTrailerModal() {
+      document.getElementById('trailerModal').classList.remove('hidden');
+    }
+
+    function closeTrailerModal() {
+      document.getElementById('trailerModal').classList.add('hidden');
+    }
+
+    // Initialize application on load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderWorkoutGrid();
+      renderCalendarGrid();
+    });
+  </script>
+</body>
+</html>
